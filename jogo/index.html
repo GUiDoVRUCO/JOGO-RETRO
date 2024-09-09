@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrossel de Jogos Retro</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            height: 100vh;
+            overflow: hidden; /* Para evitar barras de rolagem */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f0f0f0;
+        }
+
+        .bg-video {
+            position: fixed; /* Para cobrir toda a tela */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Coloca o vídeo atrás de todos os outros elementos */
+            overflow: hidden;
+        }
+
+        .bg-video .video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ajusta o vídeo para cobrir a tela */
+        }
+
+        .carousel {
+            display: flex;
+            align-items: center;
+            position: relative;
+            width: 900px;
+            height: 480px;
+            overflow: visible; /* Permite que os elementos sobrepostos sejam visíveis */
+            z-index: 1;
+            box-sizing: border-box;
+        }
+
+        .carousel-container {
+            display: flex;
+            transition: transform 0.5s ease;
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .carousel-item {
+            flex: 0 0 100%;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 4px solid rgba(255, 255, 255, 0.8); /* Borda mais espessa e semi-transparente */
+            border-radius: 8px;
+            overflow: visible; /* Permite que as imagens saiam dos limites do item */
+        }
+
+        .carousel-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+            display: block;
+        }
+
+        .carousel-item::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7); /* Fundo semi-transparente */
+            border-radius: 8px;
+            pointer-events: none; /* Garante que o fundo não interfira com cliques */
+            z-index: 1; /* Coloca o fundo semi-transparente acima da imagem, mas abaixo do conteúdo */
+        }
+
+        .carousel-item .pac-image,
+        .carousel-item .sonic-image,
+        .carousel-item .mario-image {
+            position: absolute;
+            z-index: 2; /* Acima do fundo semi-transparente */
+        }
+
+        .carousel-item.pac .pac-image {
+            top: 10%;
+            left: 50%;
+            width: 50%;
+            height: auto;
+            transform: translateX(-50%);
+            margin-left: -25%; /* Ajusta para permitir que a imagem fique visível fora do slide */
+        }
+
+        .carousel-item.sonic .sonic-image {
+            top: -5%;
+            left: 43%;
+            width: 38%;
+            height: auto;
+            transform: translateX(-50%);
+            margin-left: -15%; /* Ajusta para permitir que a imagem fique visível fora do slide */
+        }
+
+        .carousel-item.mario .mario-image {
+            top: 10%;
+            left: -1%;
+            width: 45%;
+            height: auto;
+            margin-top: -20%; /* Ajusta para permitir que a imagem fique visível fora do slide */
+        }
+
+        .carousel-item .button {
+            position: absolute;
+            bottom: 20%;
+            width: 35%;
+            left: 65%;
+            transform: translateX(-50%);
+            z-index: 3; /* Acima de tudo, para garantir que o botão seja clicável */
+        }
+
+        .carousel-item .button a {
+            color: white;
+            font-weight: bold;
+            font-size: 24px;
+            text-align: center;
+            text-decoration: none;
+            background-color: #FFA12B;
+            display: block;
+            padding: 15px 30px;
+            border-radius: 5px;
+            box-shadow: inset 0 1px 0 #FFE5C4, 0 10px 0 #915100;
+        }
+
+        .carousel-item .button a:active {
+            background-color: #F78900;
+            box-shadow: inset 0 1px 0 #FFE5C4, inset 0 -3px 0 #915100;
+        }
+
+        .carousel-item .title {
+            position: absolute;
+            top: 45%;
+            bottom: 10%;
+            left: 66%;
+            transform: translateX(-50%);
+            color: #ffa600;
+            font-size: 36px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            z-index: 2; /* Acima do fundo semi-transparente */
+        }    
+
+        .prev, .next {
+            background: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 20px;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 3; /* Coloca os botões acima do carrossel */
+        }
+
+        .prev {
+            left: 10px;
+        }
+
+        .next {
+            right: 10px;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="bg-video">
+        <video class="video" autoplay muted loop>
+            <source src="Nova pasta/arcade vj loop.mp4" type="video/mp4" />
+        </video>
+    </div>
+
+    <div class="carousel">
+        <button class="prev">❮</button>
+        <div class="carousel-container">
+            <div class="carousel-item pac" data-title="Pac-Man">
+                <img src="pac jogo.webp" alt="Jogo 1">
+                <img src="pac so.png" alt="Pac" class="pac-image">
+                <div class="title">PAC-MAN</div>
+                <div class="button">
+                    <a href="https://www.jogos123.net/jogo/pacman" target="_blank">JOGAR AGORA!</a>
+                </div>
+            </div>
+            <div class="carousel-item mario" data-title="Super Mario">
+                <img src="mario jogo.webp" alt="Jogo 2">
+                <img src="mario so (1).png" alt="Mario" class="mario-image">
+                <div class="title">MARIO</div>
+                <div class="button">
+                    <a href="https://supermario-game.com/pt" target="_blank">JOGAR AGORA!</a>
+                </div>
+            </div>
+            <div class="carousel-item sonic" data-title="Sonic the Hedgehog">
+                <img src="sonic jogo.webp" alt="Jogo 3">
+                <img src="sonic so.png" alt="Sonic" class="sonic-image">
+                <div class="title">SONIC</div>
+                <div class="button">
+                    <a href="https://www.retrogames.cz/play_117-Genesis.php" target="_blank">JOGAR AGORA!</a>
+                </div>
+            </div>
+        </div>
+        <button class="next">❯</button>
+    </div>
+
+   
+    <script>
+        const prevButton = document.querySelector('.prev');
+        const nextButton = document.querySelector('.next');
+        const carouselContainer = document.querySelector('.carousel-container');
+        const carouselItems = document.querySelectorAll('.carousel-item');
+        let index = 0;
+
+        function showSlide(index) {
+            const totalSlides = carouselItems.length;
+            index = (index + totalSlides) % totalSlides;
+            carouselContainer.style.transform = `translateX(-${index * 100}%)`;
+        }
+
+        prevButton.addEventListener('click', () => {
+            index--;
+            showSlide(index);
+        });
+
+        nextButton.addEventListener('click', () => {
+            index++;
+            showSlide(index);
+        });
+
+        showSlide(index);
+    </script>
+</body>
+</html>
